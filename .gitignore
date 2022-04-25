@@ -1,0 +1,12 @@
+# DotEnv configuration
+.env
+
+# Distribution / packaging
+env/
+*.egg-info/
+
+# cache
+__pycache__ 
+
+# data folder
+data
