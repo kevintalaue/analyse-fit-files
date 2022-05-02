@@ -1,5 +1,7 @@
 import pandas as pd
 
+from tqdm import tqdm
+
 from fitparse import FitFile as ffp
 
 
@@ -17,7 +19,7 @@ def get_fit_file_data(path_to_file):
     file = ffp(path_to_file)
     recordings = []
 
-    for record in file.get_messages("record"):
+    for record in tqdm(file.get_messages("record")):
         temporary_dataframe = pd.DataFrame(record.as_dict()["fields"])
         temporary_dataframe["column_label"] = (
             temporary_dataframe["name"].astype(str)

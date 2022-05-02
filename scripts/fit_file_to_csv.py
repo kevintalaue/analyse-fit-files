@@ -2,8 +2,11 @@
 this script will take a fit file and convert it to a csv file
 """
 import click
+import logging
 
 from analyse_fit_files.parse_fit_file import get_fit_file_data
+
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
 
 def format_read_path(file_path):
@@ -49,7 +52,11 @@ def generate_save_path(file_path):
 def main(path_to_fit_file):
     read_file_path = format_read_path(file_path=path_to_fit_file)
     save_file_path = generate_save_path(file_path=read_file_path)
-    get_fit_file_data(path_to_file=read_file_path).to_csv(path_or_buf=save_file_path)
+    get_fit_file_data(path_to_file=read_file_path).to_csv(
+        path_or_buf=save_file_path,
+        index=0,
+    )
+    logging.info(f"file saved to '{save_file_path}'")
 
 
 if __name__ == "__main__":
