@@ -153,15 +153,13 @@ def top_average_over_time(fit_file_dataframe, signal):
             fit_file_dataframe["timestamp_None"].max()
             - fit_file_dataframe["timestamp_None"].min()
         ).total_seconds()
-        + 1
     )
     top_average = []
-    for second in range(1, int(duration_in_seconds)):
+    for second in range(1, duration_in_seconds + 1):
         top = (
-            fit_file_dataframe.rolling(window=second, on="timestamp_None")[signal]
+            fit_file_dataframe.rolling(window=f"{second}s", on="timestamp_None")[signal]
             .mean()
-            .sort_values(ascending=False)
-            .to_list()[0]
+            .max()
         )
         top_average.append(
             {
