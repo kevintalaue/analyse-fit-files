@@ -64,6 +64,7 @@ def line_plot_compare(
     plt.legend(loc="upper right")
     plt.ylabel(signal.split("_")[-1:][0])
     plt.xlabel("timestamp")
+    plt.yticks("speed_pace")
 
 
 def histogram_compare(

@@ -159,7 +159,7 @@ def top_average_over_time(fit_file_dataframe, signal):
         top = (
             fit_file_dataframe.rolling(window=f"{second}s", on="timestamp_None")[signal]
             .mean()
-            .max()
+            .min()
         )
         top_average.append(
             {
