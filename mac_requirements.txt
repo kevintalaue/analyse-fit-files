@@ -1,4 +1,4 @@
-analyse-fit-files @ git+ssh://git@github.com/kevintalaue/analyse-fit-files.git@f6c8a8e7231eaa57cbe3f64718c7dd122620c9da
+-e git+ssh://git@github.com/kevintalaue/analyse-fit-files.git@f6c8a8e7231eaa57cbe3f64718c7dd122620c9da#egg=analyse_fit_files
 appnope==0.1.3
 asttokens==2.4.1
 comm==0.2.1
