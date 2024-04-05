@@ -1,4 +1,4 @@
--e git+ssh://git@github.com/kevintalaue/analyse-fit-files.git@f6c8a8e7231eaa57cbe3f64718c7dd122620c9da#egg=analyse_fit_files
+-e git+ssh://git@github.com/kevintalaue/analyse-fit-files.git#egg=analyse_fit_files
 argon2-cffi==21.3.0
 argon2-cffi-bindings==21.2.0
 attrs==21.4.0
