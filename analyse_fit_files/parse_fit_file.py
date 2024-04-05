@@ -153,15 +153,13 @@ def top_average_over_time(fit_file_dataframe, signal):
             fit_file_dataframe["timestamp_None"].max()
             - fit_file_dataframe["timestamp_None"].min()
         ).total_seconds()
-        + 1
     )
     top_average = []
-    for second in range(1, int(duration_in_seconds)):
+    for second in range(1, duration_in_seconds + 1):
         top = (
-            fit_file_dataframe.rolling(window=second, on="timestamp_None")[signal]
+            fit_file_dataframe.rolling(window=f"{second}s", on="timestamp_None")[signal]
             .mean()
-            .sort_values(ascending=False)
-            .to_list()[0]
+            .min()
         )
         top_average.append(
             {
@@ -172,3 +170,86 @@ def top_average_over_time(fit_file_dataframe, signal):
 
     top_average_over_time_dataframe = pd.DataFrame(top_average)
     return top_average_over_time_dataframe
+
+
+def decimal_time2clock_time(decimaltime):
+    """this function converts decimal time to clock time
+
+    Args:
+        decimaltime (float): decimal time as recorded by the device
+
+    Returns:
+        clocktime (str): clock time converted from decimal time
+    """
+    minutes = int(decimaltime)  # get the minutes
+    seconds = (decimaltime * 60) % 60  # get the seconds
+    clocktime = "%2d:%02d" % (minutes, seconds)  # convert to a string
+    return clocktime
+
+
+def mins_per_mile_or_km(meters_per_second, unit):
+    """this function will convert meters per second to distance per min in miles or kilometers
+
+    Args:
+        meters_per_second (int): meters travelled per second as recorded by the device
+        unit (str): mile or kilometer
+
+    Returns:
+        mins_per_mile (float): time in minutes per mile travelled
+        mins_per_kilometer (float): time in minutes per kilometer travelled
+    """
+    meters_per_min = (
+        meters_per_second * 60
+    )  # convert meters per second to meters per minute
+    meters_per_mile = 1609.34  # number of meters per mile
+    meters_per_kilometer = 1000  # number of meters per kilometer
+    try:
+        if unit == "mile":
+            mins_per_mile = (
+                meters_per_mile / meters_per_min
+            )  # get mins per mile travelled
+        if unit == "km":
+            mins_per_kilometer = (
+                meters_per_kilometer / meters_per_min
+            )  # get mins per kilometer travelled
+    except ZeroDivisionError:
+        return meters_per_second  # return the original value
+    except TypeError:
+        return meters_per_second  # return the original value
+    if unit == "mile":
+        return mins_per_mile
+    if unit == "km":
+        return mins_per_kilometer
+
+
+def sport_peak_curve(fit_file_dataframe, sport="running"):
+    """this function will find the top average for the signal
+    over the time in seconds for the duration of the fit file
+
+    Args:
+        fit_file_dataframe (dataframe): dataframe to find top average over time
+        sport (str, optional): sport to plot peak curve. Defaults to "running".
+
+    Returns:
+        sport_peak_curve (dataframe): dataframe of the peak sports metric curve over time
+    """
+    duration_in_seconds = int(fit_file_dataframe.index.max())
+    peak_average = []
+    for second in tqdm(range(1, duration_in_seconds + 1)):
+        temp = fit_file_dataframe.rolling(window=second)[
+            fit_file_dataframe.columns[1:]
+        ].mean()
+        peak_sport_metric = mins_per_mile_or_km(temp["speed_m/s"].max(), "km")
+        if sport == "cycling":
+            peak_sport_metric = temp["power_watts"].max()
+        peak_bpm = temp["heart_rate_bpm"].max()
+        peak_average.append(
+            {
+                "timestamp_None": second,
+                "sport_metric": peak_sport_metric,
+                "heart_rate": peak_bpm,
+            }
+        )
+
+    sport_peak_curve = pd.DataFrame(peak_average)
+    return sport_peak_curve
