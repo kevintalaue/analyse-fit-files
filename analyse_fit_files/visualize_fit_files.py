@@ -44,27 +44,34 @@ def line_plot_compare(
     of the fit file data signal on the
     same axis to compare
     options:
-        dataframe_to_plot: dataframe
-            dataframe to plot
+        dataframe_list_to_compare: list
+            list of the dataframe objects to compare and plot
+        datasource_list: list
+            list of the device name or name of the source of the data 
+        signal: str
+            signal to compare and plot
     returns:
         None
     """
     dataframe_list = compare_fit_file_dataframes(
         dataframe_list_to_compare,
     )
-    plt.figure(figsize=(20, 5))
+    plt.figure(figsize=(40, 10))
     for loc, df in enumerate(dataframe_list):
         plt.plot(
             df["timestamp_None"],
             df[signal],
-            label=f"{datasource_list[loc]} {df[signal].mean()}",
+            label=f"{datasource_list[loc]} {round(df[signal].mean(), 2)} avg",
             alpha=0.5,
         )
-    plt.title(signal.replace("_", " ").title())
-    plt.legend(loc="upper right")
-    plt.ylabel(signal.split("_")[-1:][0])
-    plt.xlabel("timestamp")
-    plt.yticks("speed_pace")
+        ymax = df[signal].max()
+        xpos = df.loc[df[signal] == ymax, "timestamp_None"].index[0]
+        xmax = df["timestamp_None"][xpos]
+        plt.title(signal.replace("_", " ").title())
+        plt.legend(loc="lower right")
+        plt.annotate(text=f'{datasource_list[loc]} {ymax} max', xy=(xmax, ymax), xytext=(xmax, ymax+1))
+        plt.ylabel(signal.split("_")[-1:][0])
+        plt.xlabel("timestamp")
 
 
 def histogram_compare(

@@ -31,7 +31,7 @@ def get_fit_file_data(path_to_file):
         temporary_dataframe.columns = column_names
         temporary_dataframe["timestamp_None"] = pd.to_datetime(
             temporary_dataframe["timestamp_None"]
-        )
+        ).dt.tz_localize("UTC").dt.tz_convert("US/Eastern")
         recordings.append(temporary_dataframe)
 
     fit_file_dataframe = pd.concat(recordings).reset_index(drop=True)
