@@ -1,2 +1,9 @@
 # local package - this should cover all our requirements to run
 -e file:.
+fitparse
+matplotlib
+nbformat>=4.2.0
+numpy
+plotly
+pandas
+tqdm
