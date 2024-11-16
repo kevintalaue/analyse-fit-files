@@ -2,6 +2,7 @@
 -e file:.
 fitparse
 matplotlib
+nbformat>=4.2.0
 numpy
 plotly
 pandas
