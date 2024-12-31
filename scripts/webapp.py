@@ -10,6 +10,24 @@ from analyse_fit_files.parse_fit_file import get_fit_file_data
 # Title
 st.title("Data Upload and Analysis Web App")
 
+st.write(
+    f"""
+    My name is Kevin Talaue\n
+    I am currently a triathlete in training who loves to program and analyze data\n
+    Welcome to this open source web app that allows you to upload multiple data sources to compare fitfile data\n
+    """
+)
+
+st.markdown(
+    "[Click here to visit my Strava Page](https://www.strava.com/athletes/kevintalauecr)"
+)
+st.markdown(
+    "[Click here to visit my Instagram Page](https://www.instagram.com/kevintalauecr)"
+)
+st.markdown(
+    "[Click here to visit my Youtube Channel](https://www.youtube.com/@kevintalaueCR)"
+)
+
 # Upload file
 uploaded_file = st.file_uploader(
     "Upload your data file (fit)",
