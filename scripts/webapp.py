@@ -14,7 +14,9 @@ st.write(
     f"""
     My name is Kevin Talaue\n
     I am currently a triathlete in training who loves to program and analyze data\n
+    Currently on team BeerBoost 🍺\n
     Welcome to this open source web app that allows you to upload multiple data sources to compare fitfile data\n
+    The files that are currently supported need to be exported by Sauce for Strava\n
     """
 )
 
