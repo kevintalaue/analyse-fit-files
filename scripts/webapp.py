@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 from analyse_fit_files.parse_fit_file import get_fit_file_data
 
 # Title
-st.title("Data Upload and Analysis Web App")
+st.title("Fit File Data Analysis and Comparison Tool")
 
 st.write(
     f"""
